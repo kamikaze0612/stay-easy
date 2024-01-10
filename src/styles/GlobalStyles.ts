@@ -185,6 +185,15 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
+a.active {
+  background-color: var(--color-grey-100);
+  color: var(--color-indigo-700);
+}
+
+.active > svg {
+  color: var(--color-indigo-700);
+}
+
 `;
 
 export default GlobalStyles;
