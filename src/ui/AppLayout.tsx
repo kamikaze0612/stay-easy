@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import Container from "./Container";
 
 const StyledAppLayout = styled.div`
   height: 100vh;
@@ -22,7 +23,9 @@ const AppLayout: React.FC = () => {
       <Header />
       <Sidebar />
       <Main>
-        <Outlet />
+        <Container>
+          <Outlet />
+        </Container>
       </Main>
     </StyledAppLayout>
   );

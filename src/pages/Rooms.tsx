@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import supabase from "../services/supabase";
-import Table from "../ui/Table";
+import RoomTable from "../features/rooms/RoomTable";
+import Row from "../ui/Row";
+import AddRoom from "../features/rooms/AddRoom";
 
-const StyledRooms = styled.div`
-  max-width: 120rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
-`;
-
-const Heading = styled.h2`
-  font-size: 3rem;
-  font-weight: 600;
-`;
-
-type Room = {
+export type Room = {
   name: string;
   rooms_num: number;
   maxCapacity: number;
@@ -27,38 +14,23 @@ type Room = {
   image: string;
 };
 
+const Heading = styled.h2`
+  font-size: 3rem;
+  font-weight: 600;
+`;
+
 const Rooms: React.FC = () => {
-  const [rooms, setRooms] = useState<Array<Room>>();
-
-  useEffect(() => {
-    async function fetchRooms() {
-      const { data: rooms, error } = await supabase.from("rooms").select("*");
-
-      setRooms(rooms as Array<Room>);
-      if (error) {
-        console.log(error);
-      }
-    }
-
-    fetchRooms();
-  }, []);
-
-  console.log(rooms);
   return (
-    <StyledRooms>
-      <Heading>Rooms</Heading>
-      <Table columns=".6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-        <Table.Header>
-          <span></span>
-          <span>Room</span>
-          <span>Capacity</span>
-          <span>Price</span>
-          <span>Discount</span>
-          <span></span>
-        </Table.Header>
-        <Table.Body data={rooms}></Table.Body>
-      </Table>
-    </StyledRooms>
+    <>
+      <Row type="horizontal">
+        <Heading>Rooms</Heading>
+      </Row>
+
+      <Row type="vertical">
+        <RoomTable />
+        <AddRoom />
+      </Row>
+    </>
   );
 };
 
