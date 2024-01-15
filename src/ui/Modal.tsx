@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { FaXmark } from "react-icons/fa6";
 import styled from "styled-components";
 
 type ModalProps = {
@@ -23,6 +24,17 @@ type ModalOpenProps = {
   opens: string;
 };
 
+const StyledModal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-grey-0);
+  border-radius: var(--border-radius-lg);
+  padding: 3.2rem 4.8rem;
+  transition: all 0.5s;
+`;
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -35,21 +47,42 @@ const Overlay = styled.div`
   transition: all 0.5s;
 `;
 
-const StyledWindow = styled.div`
-  padding: 1.2rem 2.4rem;
+const Button = styled.button`
+  padding: 0.4rem;
+  border: none;
+  background: none;
+  border-radius: var(--border-radius-sm);
+  transform: translate(0.8rem);
+  transition: all 0.2s;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.9rem;
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+
+  & svg {
+    width: 2.4rem;
+    height: 2.4rem;
+
+    color: var(--color-grey-500);
+  }
 `;
 
 const ModalContext = createContext({
   openName: "",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  open: (name: string) => {},
+  open: (_name: string) => {},
   close: () => {},
 });
 
 const Modal = ({ children }: ModalProps) => {
   const [openName, setOpenName] = useState<string>("");
 
-  const open = (name: string) => setOpenName(name);
+  const open = (name: string) => {
+    setOpenName(name);
+  };
   const close = () => setOpenName("");
 
   return (
@@ -64,16 +97,23 @@ function Open({ children, opens: windowNameToOpen }: ModalOpenProps) {
 
   return cloneElement(children as ReactElement, {
     onClick: () => open(windowNameToOpen),
+    key: "Hello",
   });
 }
 
 function Window({ children, name }: ModalWindowProps) {
-  console.log(name);
+  const { openName, close } = useContext(ModalContext);
+
+  if (openName !== name) return null;
+
   return createPortal(
     <Overlay>
-      <StyledWindow>
+      <StyledModal>
+        <Button onClick={close}>
+          <FaXmark />
+        </Button>
         {cloneElement(children as ReactElement, { onCloseModal: close })}
-      </StyledWindow>
+      </StyledModal>
     </Overlay>,
     document.body
   );
