@@ -1,8 +1,7 @@
-import styled from "styled-components";
-
 import RoomTable from "../features/rooms/RoomTable";
 import Row from "../ui/Row";
 import AddRoom from "../features/rooms/AddRoom";
+import Heading from "../ui/Heading";
 
 export type Room = {
   name: string;
@@ -13,11 +12,6 @@ export type Room = {
   discount: number;
   image: string;
 };
-
-const Heading = styled.h2`
-  font-size: 3rem;
-  font-weight: 600;
-`;
 
 const Rooms: React.FC = () => {
   return (
