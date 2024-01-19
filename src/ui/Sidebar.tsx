@@ -51,18 +51,18 @@ const Sidebar: React.FC = () => {
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/settings">
-              <FaCog /> Settings
-            </StyledNavLink>
-          </li>
-          <li>
             <StyledNavLink to="/bookings">
               <FaAddressBook /> Bookings
             </StyledNavLink>
           </li>
           <li>
+            <StyledNavLink to="/settings">
+              <FaCog /> Settings
+            </StyledNavLink>
+          </li>
+          <li>
             <StyledNavLink to="/users">
-              <FaUsers /> All users
+              <FaUsers /> Users
             </StyledNavLink>
           </li>
         </NavList>

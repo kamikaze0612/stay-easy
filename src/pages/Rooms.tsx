@@ -4,6 +4,7 @@ import AddRoom from "../features/rooms/AddRoom";
 import Heading from "../ui/Heading";
 
 export type Room = {
+  id: string;
   name: string;
   rooms_num: number;
   maxCapacity: number;

@@ -3,7 +3,10 @@ import {
   ReactNode,
   cloneElement,
   createContext,
+  useCallback,
   useContext,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
@@ -83,7 +86,7 @@ const Modal = ({ children }: ModalProps) => {
   const open = (name: string) => {
     setOpenName(name);
   };
-  const close = () => setOpenName("");
+  const close = useCallback(() => setOpenName(""), []);
 
   return (
     <ModalContext.Provider value={{ openName, open, close }}>
@@ -104,11 +107,24 @@ function Open({ children, opens: windowNameToOpen }: ModalOpenProps) {
 function Window({ children, name }: ModalWindowProps) {
   const { openName, close } = useContext(ModalContext);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        close();
+      }
+    }
+
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, [close]);
+
   if (openName !== name) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <FaXmark />
         </Button>

@@ -121,6 +121,12 @@ body {
   min-height: 100vh;
   line-height: 1;
   font-size: 1.6rem;
+  position: relative;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-grey-400);
 }
 
 input,

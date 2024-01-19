@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Table from "../../ui/Table";
 import { Room } from "../../pages/Rooms";
 import formatCurrency from "../../utils/formatCurrency";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
 
 type RoomRowProps = {
   room: Room;
@@ -43,6 +45,21 @@ const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
           ? formatCurrency(room.discount)
           : String.fromCharCode(0x2014)}
       </Discount>
+      <div>
+        <Modal>
+          <Menus>
+            <Menus.Menu>
+              <Menus.Toggle id={room.id} />
+
+              <Menus.List id={room.id}>
+                <li>
+                  <Menus.Button onSubmit={() => {}}>Clear</Menus.Button>
+                </li>
+              </Menus.List>
+            </Menus.Menu>
+          </Menus>
+        </Modal>
+      </div>
     </Table.Row>
   );
 };
