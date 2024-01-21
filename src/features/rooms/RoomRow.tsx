@@ -3,7 +3,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 import Table from "../../ui/Table";
 import { Room } from "../../pages/Rooms";
-import formatCurrency from "../../utils/formatCurrency";
+import { formatCurrency } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import CreateRoomForm from "./CreateRoomForm";
