@@ -34,6 +34,7 @@ const StyledModal = styled.div`
   transform: translate(-50%, -50%);
   background-color: var(--color-grey-0);
   border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
   padding: 3.2rem 4.8rem;
   transition: all 0.5s;
 `;

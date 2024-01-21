@@ -2,11 +2,12 @@ import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 
 type ButtonProps = {
-  variation?: "primary" | "secondary";
+  variation?: "primary" | "secondary" | "danger";
   size?: "small" | "normal" | "big";
   type?: string;
   onClick?: () => void;
   children: ReactNode;
+  disabled?: boolean;
 };
 
 const sizes = {
@@ -50,6 +51,15 @@ const variations = {
       background-color: var(--color-grey-100);
     }
   `,
+
+  danger: css`
+    background-color: var(--color-red-700);
+    color: var(--color-red-100);
+
+    &:hover {
+      background-color: var(--color-red-800);
+    }
+  `,
 };
 
 const StyledButton = styled.button<ButtonProps>`
@@ -72,6 +82,7 @@ const Button: React.FC<ButtonProps> = ({
   size,
   onClick,
   type,
+  disabled,
 }) => {
   return (
     <StyledButton
@@ -79,6 +90,7 @@ const Button: React.FC<ButtonProps> = ({
       size={size}
       variation={variation}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </StyledButton>

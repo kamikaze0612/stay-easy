@@ -1,6 +1,7 @@
 import {
   Dispatch,
   MouseEventHandler,
+  ReactElement,
   ReactNode,
   SetStateAction,
   createContext,
@@ -25,8 +26,9 @@ type MenusListProps = {
 };
 
 type MenusButtonProps = {
-  onSubmit: () => void;
+  onClick?: () => void;
   children: ReactNode;
+  icon: ReactElement;
 };
 
 type MenusToggleProps = {
@@ -65,18 +67,33 @@ const StyledToggle = styled.button`
 const StyledList = styled.ul<MenusListProps>`
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   border-radius: var(--border-radius-md);
   position: fixed;
   z-index: 999;
   background-color: var(--color-grey-0);
-
-  top: ${(props) => props?.position?.y}px;
-  left: ${(props) => props?.position?.x}px;
+  box-shadow: var(--shadow-md);
 `;
 
 const StyledButton = styled.button`
-  padding: 0.8rem 1.6rem;
+  padding: 1.2rem 2.4rem;
+  font-size: 1.4rem;
+  border: none;
+  background-color: inherit;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+
+  &:first-child {
+  }
+
+  &svg {
+    color: var(--color-grey-300);
+  }
 `;
 
 const initialContextValue = {
@@ -93,8 +110,6 @@ const Menus = ({ children }: MenusProps) => {
   const [openId, setOpenId] = useState<string>("");
   const [position, setPosition] = useState<Position | undefined>();
 
-  console.log(openId);
-
   const open = (id: typeof openId) => setOpenId(id);
   const close = useCallback(() => setOpenId(""), []);
 
@@ -107,15 +122,21 @@ const Menus = ({ children }: MenusProps) => {
   );
 };
 
-function Button({ children, onSubmit }: MenusButtonProps) {
+function Button({ icon, children, onClick }: MenusButtonProps) {
   const { close } = useContext(MenusContext);
 
   function handleClick() {
-    onSubmit?.();
+    onClick?.();
     close();
   }
 
-  return <StyledButton onClick={handleClick}>{children}</StyledButton>;
+  return (
+    <li>
+      <StyledButton onClick={handleClick}>
+        {icon} {children}
+      </StyledButton>
+    </li>
+  );
 }
 
 function List({ id, children }: MenusListProps) {
@@ -124,19 +145,17 @@ function List({ id, children }: MenusListProps) {
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (ref.current && ref.current.contains(e.target as Node)) close();
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
     }
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, [close]);
 
-  console.log(id);
-
   if (openId !== id) return null;
 
   return createPortal(
-    <StyledList position={position} ref={ref}>
+    <StyledList style={{ top: position?.y, right: position?.x }} ref={ref}>
       {children}
     </StyledList>,
     document.body
@@ -144,21 +163,19 @@ function List({ id, children }: MenusListProps) {
 }
 
 function Toggle({ id }: MenusToggleProps) {
-  const { open, setPosition, openId } = useContext(MenusContext);
+  const { open, setPosition, openId, close } = useContext(MenusContext);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log("TOGGLE");
     e.stopPropagation();
 
     const targetEl = e.target as Element;
     const rect = targetEl.closest("button")?.getBoundingClientRect();
 
-    setPosition({
-      x: rect?.x,
-      y: rect?.y,
-    });
-
-    open(id);
+    if (rect)
+      setPosition({
+        x: window.innerWidth - rect?.x - rect?.width - 2,
+        y: rect?.y + rect?.height + 4,
+      });
 
     openId === "" || openId !== id ? open(id) : close();
   };

@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 import Table from "../../ui/Table";
 import { Room } from "../../pages/Rooms";
 import formatCurrency from "../../utils/formatCurrency";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
+import CreateRoomForm from "./CreateRoomForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteRoom } from "./useDeleteRoom";
 
 type RoomRowProps = {
   room: Room;
@@ -34,6 +38,8 @@ const Discount = styled(Number)`
 `;
 
 const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
+  const { deleteRoom, isDeleting } = useDeleteRoom();
+
   return (
     <Table.Row>
       <Image src={room?.image} alt={`${room?.name} image`} />
@@ -49,13 +55,27 @@ const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
         <Modal>
           <Menus>
             <Menus.Menu>
-              <Menus.Toggle id={room.id} />
+              <Menus.Toggle id={`${room.id}`} />
 
-              <Menus.List id={room.id}>
-                <li>
-                  <Menus.Button onSubmit={() => {}}>Clear</Menus.Button>
-                </li>
+              <Menus.List id={`${room.id}`}>
+                <Modal.Open opens="editRoom">
+                  <Menus.Button icon={<FaEdit />}>Edit</Menus.Button>
+                </Modal.Open>
+
+                <Modal.Open opens="deleteRoom">
+                  <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
+                </Modal.Open>
               </Menus.List>
+
+              <Modal.Window name="editRoom">
+                <CreateRoomForm roomToEdit={room} />
+              </Modal.Window>
+              <Modal.Window name="deleteRoom">
+                <ConfirmDelete
+                  disabled={isDeleting}
+                  onConfirm={() => deleteRoom(room.id)}
+                />
+              </Modal.Window>
             </Menus.Menu>
           </Menus>
         </Modal>

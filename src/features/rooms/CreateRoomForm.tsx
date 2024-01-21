@@ -8,12 +8,17 @@ import Button from "../../ui/Button";
 import { Room } from "../../pages/Rooms";
 import { useCreateRoom } from "./useCreateRoom";
 import TextArea from "../../ui/TextArea";
+import { useEditRoom } from "./useEditRoom";
 
 type CreateRoomFormProps = {
   onCloseModal?: () => void;
+  roomToEdit?: Room;
 };
 
-const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
+const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
+  onCloseModal,
+  roomToEdit = {} as Room,
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,9 +27,19 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
   } = useForm<Room>();
 
   const { createRoom, isCreating } = useCreateRoom();
+  const { updateRoom, isUpdating } = useEditRoom();
+
+  const isWorking = isCreating || isUpdating;
 
   const onSubmit: SubmitHandler<Room> = (data) => {
+    if (roomToEdit?.id) {
+      updateRoom({ id: roomToEdit.id, room: data });
+      if (Object.keys(errors).length === 0) onCloseModal?.();
+      return;
+    }
+
     createRoom(data);
+    if (Object.keys(errors).length === 0) onCloseModal?.();
   };
 
   if (Object.keys(errors).length > 0) console.log(errors);
@@ -35,11 +50,11 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <FormRow label="Room name" id="name" error={errors?.name}>
-        {/* <Label htmlFor="name">Room name</Label> */}
         <Input
-          disabled={isCreating}
+          disabled={isWorking}
           id="name"
           type="text"
+          defaultValue={roomToEdit?.name}
           placeholder="Name"
           {...register("name", {
             required: "Name must be provided",
@@ -56,11 +71,11 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
         id="maxCapacity"
         error={errors?.maxCapacity}
       >
-        {/* <Label htmlFor="maxCapacity">Maximum capacity</Label> */}
         <Input
-          disabled={isCreating}
+          disabled={isWorking}
           id="maxCapacity"
           type="number"
+          defaultValue={roomToEdit?.maxCapacity}
           step={1}
           placeholder="Maximum capacity"
           {...register("maxCapacity", {
@@ -78,11 +93,11 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
       </FormRow>
 
       <FormRow label="Number of rooms" id="rooms_num" error={errors?.rooms_num}>
-        {/* <Label htmlFor="rooms_num">Number of rooms</Label> */}
         <Input
-          disabled={isCreating}
+          disabled={isWorking}
           id="rooms_num"
           type="number"
+          defaultValue={roomToEdit?.rooms_num}
           step={1}
           placeholder="Number of rooms"
           {...register("rooms_num", {
@@ -100,11 +115,11 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
       </FormRow>
 
       <FormRow label="Price of room" id="price" error={errors?.price}>
-        {/* <Label htmlFor="price">Price of room</Label> */}
         <Input
-          disabled={isCreating}
+          disabled={isWorking}
           id="price"
           type="number"
+          defaultValue={roomToEdit?.price}
           placeholder="Regular price"
           {...register("price", {
             required: "Price of room must be provided",
@@ -121,12 +136,11 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
       </FormRow>
 
       <FormRow label="Discount for room" id="discount" error={errors?.discount}>
-        {/* <Label htmlFor="discount">Discount for room</Label> */}
         <Input
-          disabled={isCreating}
+          disabled={isWorking}
           id="discount"
           type="number"
-          defaultValue={0}
+          defaultValue={roomToEdit?.discount || 0}
           min={0}
           max={1000000}
           {...register("discount", {
@@ -135,7 +149,7 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
               message: "Discount must be greather or equal to 0",
             },
             validate: (value) =>
-              value <= getValues().price ||
+              +value <= +getValues().price ||
               "Discount should be less than regular price",
           })}
         />
@@ -146,12 +160,12 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
         id="description"
         error={errors?.description}
       >
-        {/* <Label htmlFor="description">Description for room</Label> */}
         <TextArea
-          disabled={isCreating}
+          disabled={isWorking}
           rows={3}
           id="description"
           placeholder="Description"
+          defaultValue={roomToEdit?.description}
           {...register("description", {
             required: "Description for room must be provided",
             minLength: {
@@ -167,7 +181,6 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
       </FormRow>
 
       <FormRow label="Room image" id="image" error={errors?.image}>
-        {/* <Label htmlFor="image">Room image</Label> */}
         <FileInput
           id="image"
           {...register("image", {
@@ -184,7 +197,9 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({ onCloseModal }) => {
         >
           Cancel
         </Button>
-        <Button type="submit">Create new room</Button>
+        <Button type="submit">
+          {roomToEdit?.id ? "Update room" : "Create new room"}
+        </Button>
       </FormRow>
     </Form>
   );

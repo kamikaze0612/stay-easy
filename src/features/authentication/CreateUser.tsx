@@ -5,6 +5,7 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { User } from "../../pages/Users";
+import FileInput from "../../ui/FileInput";
 
 const CreateUser: React.FC = () => {
   const {
@@ -20,8 +21,9 @@ const CreateUser: React.FC = () => {
 
   return (
     <Form type="regular" onSubmit={handleSubmit(onSubmit)}>
-      <FormRow label="Full name" error={errors?.fullName}>
+      <FormRow label="Full name" error={errors?.fullName} id="fullName">
         <Input
+          id="fullName"
           type="text"
           placeholder="John Doe"
           {...register("fullName", {
@@ -30,8 +32,9 @@ const CreateUser: React.FC = () => {
         />
       </FormRow>
 
-      <FormRow label="Email address" error={errors?.email}>
+      <FormRow label="Email address" error={errors?.email} id="email">
         <Input
+          id="email"
           type="email"
           placeholder="johndoe@example.com"
           {...register("email", {
@@ -44,8 +47,13 @@ const CreateUser: React.FC = () => {
         />
       </FormRow>
 
-      <FormRow label="Password (min 8 characters)" error={errors?.password}>
+      <FormRow
+        label="Password (min 8 characters)"
+        error={errors?.password}
+        id="password"
+      >
         <Input
+          id="password"
           type="password"
           {...register("password", {
             required: "Password is required",
@@ -61,8 +69,13 @@ const CreateUser: React.FC = () => {
         />
       </FormRow>
 
-      <FormRow label="Confirm password" error={errors?.passwordConfirm}>
+      <FormRow
+        label="Confirm password"
+        error={errors?.passwordConfirm}
+        id="passwordConfirm"
+      >
         <Input
+          id="passwordConfirm"
           type="password"
           {...register("passwordConfirm", {
             required: "Please confirm your password",
@@ -70,6 +83,10 @@ const CreateUser: React.FC = () => {
               value === getValues().password || "Confirm password is incorrect",
           })}
         />
+      </FormRow>
+
+      <FormRow label="User avatar" id="image">
+        <FileInput id="image" {...register("avatar")} />
       </FormRow>
 
       <FormRow>
