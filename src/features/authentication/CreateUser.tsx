@@ -4,8 +4,9 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-import { User } from "../../pages/Users";
 import FileInput from "../../ui/FileInput";
+import { User } from "../../pages/Users";
+import { useSignup } from "./useSignup";
 
 const CreateUser: React.FC = () => {
   const {
@@ -15,14 +16,17 @@ const CreateUser: React.FC = () => {
     getValues,
   } = useForm<User>();
 
+  const { signup, isSigningup } = useSignup();
+
   const onSubmit: SubmitHandler<User> = (user) => {
-    console.log(user);
+    signup(user);
   };
 
   return (
     <Form type="regular" onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Full name" error={errors?.fullName} id="fullName">
         <Input
+          disabled={isSigningup}
           id="fullName"
           type="text"
           placeholder="John Doe"
@@ -34,6 +38,7 @@ const CreateUser: React.FC = () => {
 
       <FormRow label="Email address" error={errors?.email} id="email">
         <Input
+          disabled={isSigningup}
           id="email"
           type="email"
           placeholder="johndoe@example.com"
@@ -53,6 +58,7 @@ const CreateUser: React.FC = () => {
         id="password"
       >
         <Input
+          disabled={isSigningup}
           id="password"
           type="password"
           {...register("password", {
@@ -75,6 +81,7 @@ const CreateUser: React.FC = () => {
         id="passwordConfirm"
       >
         <Input
+          disabled={isSigningup}
           id="passwordConfirm"
           type="password"
           {...register("passwordConfirm", {
@@ -86,7 +93,7 @@ const CreateUser: React.FC = () => {
       </FormRow>
 
       <FormRow label="User avatar" id="image">
-        <FileInput id="image" {...register("avatar")} />
+        <FileInput disabled={isSigningup} id="image" {...register("avatar")} />
       </FormRow>
 
       <FormRow>

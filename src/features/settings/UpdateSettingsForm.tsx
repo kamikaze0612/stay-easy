@@ -7,6 +7,7 @@ import FormRow from "../../ui/FormRow";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { getSettings } from "../../services/apiSettings";
+import Loader from "../../ui/Loader";
 
 export type Settings = {
   min_booking_length: number;
@@ -21,6 +22,8 @@ const UpdateSettingsForm: React.FC = () => {
     queryFn: getSettings,
   });
 
+  console.log(settings);
+
   const {
     register,
     handleSubmit,
@@ -33,7 +36,7 @@ const UpdateSettingsForm: React.FC = () => {
     updateSettings(data);
   };
 
-  if (isLoading) return <p>...Loading</p>;
+  if (isLoading) return <Loader />;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type="regular">

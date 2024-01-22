@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaHome, FaKey, FaCog, FaAddressBook, FaUsers } from "react-icons/fa";
 import styled from "styled-components";
+import UploadData from "../data/UploadData";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -67,6 +68,8 @@ const Sidebar: React.FC = () => {
           </li>
         </NavList>
       </NavBar>
+
+      <UploadData />
     </StyledSidebar>
   );
 };

@@ -200,6 +200,36 @@ a.active {
   color: var(--color-indigo-700);
 }
 
+/* LOADER */
+.dots-8 {
+  width: 15px;
+  aspect-ratio: 1;
+  position: relative;
+}
+.dots-8::before,
+.dots-8::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #000;
+}
+.dots-8::before {
+  box-shadow: -25px 0;
+  animation: d8-1 1s infinite linear;
+}
+.dots-8::after {
+  transform: rotate(0deg) translateX(25px);
+  animation: d8-2 1s infinite linear;
+}
+
+@keyframes d8-1 {
+    100%{transform: translateX(25px)}
+}
+@keyframes d8-2 {
+    100%{transform: rotate(-180deg) translateX(25px)}
+}
+
 `;
 
 export default GlobalStyles;

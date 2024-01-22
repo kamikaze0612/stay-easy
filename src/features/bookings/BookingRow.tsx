@@ -1,11 +1,10 @@
 import styled from "styled-components";
-
+import { format, isToday } from "date-fns";
 import { FaTrash } from "react-icons/fa";
 
 import Table from "../../ui/Table";
 import { Booking } from "../../pages/Bookings";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
-import { format, isToday } from "date-fns";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
 
@@ -42,16 +41,16 @@ const FeeAmount = styled.p`
 const STATUS_TO_TAG_TYPE = {
   unconfirmed: "blue",
   confirmed: "green",
-  "checked-out": "gray",
+  "checked-out": "grey",
 };
 
 const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
   return (
     <Table.Row>
-      <RoomName>{booking.rooms.name}</RoomName>
+      <RoomName>{booking?.rooms?.name}</RoomName>
       <Stacked>
-        <span>{booking.guests.full_name}</span>
-        <span>{booking.guests.email}</span>
+        <span>{booking?.guests?.full_name}</span>
+        <span>{booking?.guests?.email}</span>
       </Stacked>
       <Stacked>
         <span>
@@ -67,7 +66,7 @@ const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
       </Stacked>
 
       <Tag type={STATUS_TO_TAG_TYPE[booking.status]}>
-        {booking.status.replace("-", "")}
+        {booking.status.replace("-", " ")}
       </Tag>
 
       <FeeAmount>{formatCurrency(booking.fee)}</FeeAmount>

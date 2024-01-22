@@ -6,7 +6,7 @@ export const formatCurrency = new Intl.NumberFormat("en-US", {
 }).format;
 
 export const subtractDates = (startDateStr: string, endDateStr: string) =>
-  differenceInDays(parseISO(startDateStr), parseISO(endDateStr));
+  differenceInDays(parseISO(endDateStr), parseISO(startDateStr));
 
 export const formatDistanceFromNow = (dateStr: string) => {
   formatDistance(parseISO(dateStr), new Date(), { addSuffix: true })

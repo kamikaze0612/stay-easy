@@ -49,7 +49,10 @@ const StyledRow = styled(CommonRow)`
   border-right: 1px solid var(--color-grey-200);
 `;
 
-const StyledBody = styled.div``;
+const StyledBody = styled.div`
+  overflow: scroll;
+  max-height: 60rem;
+`;
 
 const TableContext = createContext({
   columns: "",

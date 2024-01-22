@@ -2,12 +2,13 @@ import { useRooms } from "./useRooms";
 import { Room } from "../../pages/Rooms";
 import Table from "../../ui/Table";
 import RoomRow from "./RoomRow";
+import Loader from "../../ui/Loader";
 
 const RoomTable: React.FC = () => {
   const { data: rooms, isLoading } = useRooms();
 
   return isLoading ? (
-    <p>Loading...</p>
+    <Loader />
   ) : (
     <Table columns=".6fr 1.8fr 2.2fr 1fr 1fr 1fr">
       <Table.Header>
