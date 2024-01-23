@@ -32,13 +32,13 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<AppLayout />}>
-              <Route index element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="rooms" element={<Rooms />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="bookings" element={<Bookings />} />
-              <Route path="bookings/:bookingId" element={<Booking />} />
-              <Route path="users" element={<Users />} />
+              <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/rooms" element={<Rooms />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/bookings/:bookingId" element={<Booking />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/checkin/:bookingId" element={<Checkin />} />
             </Route>
           </Routes>

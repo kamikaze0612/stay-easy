@@ -77,7 +77,7 @@ export async function apiCreateBookings() {
 
     const room_total_price = stay_length * room.price;
     const extras_total_price = booking.has_breakfast
-      ? stay_length * +settings?.[0]?.breakfast_price
+      ? stay_length * +settings?.[0]?.breakfast_price * +booking.guests_num
       : 0;
 
     const fee = room_total_price + extras_total_price;

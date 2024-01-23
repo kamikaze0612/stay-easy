@@ -16,20 +16,19 @@ export async function getBookings() {
   return bookings;
 }
 
-export async function getBooking(id?: string) {
+export async function getBooking(id: string | undefined) {
   const { data: booking, error } = await supabase
     .from("bookings")
-    .select(
-      "id, start_date, end_date, status, fee, stay_length, is_paid, created_at, guests_num, has_breakfast, rooms(name), guests(full_name, email, flag_icon, national_id)"
-    )
-    .eq("id", id);
+    .select("*, rooms(*), guests(*)")
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Booking could not be fetched");
   }
 
-  return booking[0] as unknown as Booking;
+  return booking as Booking;
 }
 
 export async function deleteBooking(id: string) {

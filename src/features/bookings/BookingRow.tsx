@@ -4,6 +4,7 @@ import {
   FaTrash,
   FaRegCaretSquareDown,
   FaRegCaretSquareUp,
+  FaEye,
 } from "react-icons/fa";
 
 import Table from "../../ui/Table";
@@ -104,6 +105,13 @@ const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
                   Check out
                 </Menus.Button>
               )}
+
+              <Menus.Button
+                onClick={() => navigate(`/bookings/${booking.id}`)}
+                icon={<FaEye />}
+              >
+                Details
+              </Menus.Button>
 
               <Modal.Open opens="deleteBooking">
                 <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>

@@ -1,4 +1,4 @@
-import { Settings } from "../pages/Settings";
+import { Settings } from "../features/settings/UpdateSettingsForm";
 import supabase from "./supabase";
 
 export const getSettings = async () => {

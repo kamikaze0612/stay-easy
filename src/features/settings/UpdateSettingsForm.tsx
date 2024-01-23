@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUpdateSettings } from "./useUpdateSettings";
 
@@ -6,8 +5,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
-import { getSettings } from "../../services/apiSettings";
 import Loader from "../../ui/Loader";
+import { useSettings } from "./useSettings";
 
 export type Settings = {
   min_booking_length: number;
@@ -17,10 +16,7 @@ export type Settings = {
 };
 
 const UpdateSettingsForm: React.FC = () => {
-  const { data: settings, isLoading } = useQuery({
-    queryKey: ["settings"],
-    queryFn: getSettings,
-  });
+  const { settings, isLoading } = useSettings();
 
   const {
     register,
