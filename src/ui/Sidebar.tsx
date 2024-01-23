@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaHome, FaKey, FaCog, FaAddressBook, FaUsers } from "react-icons/fa";
 import styled from "styled-components";
-import UploadData from "../data/UploadData";
+import Footer from "./Footer";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -35,10 +35,15 @@ const StyledNavLink = styled(NavLink)`
   border-radius: 0.8rem;
 `;
 
+const End = styled.div`
+  margin-top: auto;
+  margin-bottom: -3.2rem;
+`;
+
 const Sidebar: React.FC = () => {
   return (
     <StyledSidebar>
-      <Logo src="img/logo-light.png" alt="Stay Easy Logo" />
+      <Logo src="/img/logo-light.png" alt="Stay Easy Logo" />
       <NavBar>
         <NavList>
           <li>
@@ -69,7 +74,9 @@ const Sidebar: React.FC = () => {
         </NavList>
       </NavBar>
 
-      <UploadData />
+      <End>
+        <Footer></Footer>
+      </End>
     </StyledSidebar>
   );
 };

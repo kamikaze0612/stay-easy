@@ -1,4 +1,5 @@
 import { Booking } from "../../pages/Bookings";
+import Empty from "../../ui/Empty";
 import Loader from "../../ui/Loader";
 import Table from "../../ui/Table";
 import BookingRow from "./BookingRow";
@@ -7,7 +8,10 @@ import { useBookings } from "./useBookings";
 const BookingsTable: React.FC = () => {
   const { bookings, isLoading } = useBookings();
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !bookings) return <Loader />;
+  if (!bookings || !bookings?.length) {
+    return <Empty />;
+  }
 
   return (
     <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">

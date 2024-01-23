@@ -29,6 +29,7 @@ type MenusButtonProps = {
   onClick?: () => void;
   children: ReactNode;
   icon: ReactElement;
+  disabled?: boolean;
 };
 
 type MenusToggleProps = {
@@ -122,7 +123,7 @@ const Menus = ({ children }: MenusProps) => {
   );
 };
 
-function Button({ icon, children, onClick }: MenusButtonProps) {
+function Button({ icon, children, onClick, disabled }: MenusButtonProps) {
   const { close } = useContext(MenusContext);
 
   function handleClick() {
@@ -132,7 +133,7 @@ function Button({ icon, children, onClick }: MenusButtonProps) {
 
   return (
     <li>
-      <StyledButton onClick={handleClick}>
+      <StyledButton disabled={disabled} onClick={handleClick}>
         {icon} {children}
       </StyledButton>
     </li>

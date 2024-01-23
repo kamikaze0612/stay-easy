@@ -1,12 +1,22 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
-import { FaTrash } from "react-icons/fa";
+import {
+  FaTrash,
+  FaRegCaretSquareDown,
+  FaRegCaretSquareUp,
+} from "react-icons/fa";
 
 import Table from "../../ui/Table";
 import { Booking } from "../../pages/Bookings";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "./useDeleteBooking";
+import { useCheckout } from "./useCheckout";
+import { useNavigate } from "react-router-dom";
+import { STATUS_TO_TAG_TYPE } from "../../utils/constants";
 
 type BookingRowProps = {
   booking: Booking;
@@ -38,13 +48,12 @@ const FeeAmount = styled.p`
   font-weight: 500;
 `;
 
-const STATUS_TO_TAG_TYPE = {
-  unconfirmed: "blue",
-  confirmed: "green",
-  "checked-out": "grey",
-};
-
 const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { checkout, isCheckingOut } = useCheckout();
+
+  const navigate = useNavigate();
+
   return (
     <Table.Row>
       <RoomName>{booking?.rooms?.name}</RoomName>
@@ -71,13 +80,45 @@ const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
 
       <FeeAmount>{formatCurrency(booking.fee)}</FeeAmount>
 
-      <Menus>
-        <Menus.Toggle id="hello"></Menus.Toggle>
+      <Modal>
+        <Menus>
+          <Menus.Menu>
+            <Menus.Toggle id={`${booking.id}`}></Menus.Toggle>
 
-        <Menus.List id="hello">
-          <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
-        </Menus.List>
-      </Menus>
+            <Menus.List id={`${booking.id}`}>
+              {booking.status === "unconfirmed" && (
+                <Menus.Button
+                  onClick={() => navigate(`/checkin/${booking.id}`)}
+                  icon={<FaRegCaretSquareDown />}
+                >
+                  Check in
+                </Menus.Button>
+              )}
+
+              {booking.status === "confirmed" && (
+                <Menus.Button
+                  disabled={isCheckingOut}
+                  onClick={() => checkout(booking.id)}
+                  icon={<FaRegCaretSquareUp />}
+                >
+                  Check out
+                </Menus.Button>
+              )}
+
+              <Modal.Open opens="deleteBooking">
+                <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+
+            <Modal.Window name="deleteBooking">
+              <ConfirmDelete
+                disabled={isDeleting}
+                onConfirm={() => deleteBooking(booking.id)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Menus>
+      </Modal>
     </Table.Row>
   );
 };

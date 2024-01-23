@@ -9,8 +9,9 @@ const Tag = styled.span<TagProps>`
   text-transform: uppercase;
   border-radius: 100px;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   width: fit-content;
+  display: inline-block;
 
   background-color: var(--color-${(props) => props.type}-100);
   color: var(--color-${(props) => props.type}-700);

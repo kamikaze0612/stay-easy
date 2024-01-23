@@ -49,25 +49,11 @@ const StyledRow = styled(CommonRow)`
   border-right: 1px solid var(--color-grey-200);
 `;
 
-const StyledBody = styled.div`
-  overflow: scroll;
-  max-height: 60rem;
-`;
+const StyledBody = styled.div``;
 
 const TableContext = createContext({
   columns: "",
 });
-
-const Empty = styled.p`
-  text-align: center;
-  font-size: 1.8rem;
-  color: var(--color-grey-500);
-  padding: 2.4rem 0;
-  background-color: var(--color-grey-0);
-  border-bottom: 1px solid var(--color-grey-200);
-  border-left: 1px solid var(--color-grey-200);
-  border-right: 1px solid var(--color-grey-200);
-`;
 
 const Table = ({ columns, children }: TableProps) => {
   return (
@@ -98,8 +84,6 @@ function Row({ children }: TableContentProps) {
 }
 
 function Body({ data, render }: TableBodyProps) {
-  if (data && data.length === 0)
-    return <Empty>No data to show at the moment</Empty>;
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 

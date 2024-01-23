@@ -12,6 +12,8 @@ import AppLayout from "./ui/AppLayout";
 import Settings from "./pages/Settings";
 import Bookings from "./pages/Bookings";
 import Users from "./pages/Users";
+import Checkin from "./pages/Checkin";
+import Booking from "./features/bookings/Booking";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,7 +37,9 @@ const App: React.FC = () => {
               <Route path="rooms" element={<Rooms />} />
               <Route path="settings" element={<Settings />} />
               <Route path="bookings" element={<Bookings />} />
+              <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="users" element={<Users />} />
+              <Route path="/checkin/:bookingId" element={<Checkin />} />
             </Route>
           </Routes>
         </BrowserRouter>

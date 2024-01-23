@@ -15,6 +15,7 @@ const StyledAppLayout = styled.div`
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4.8rem;
+  overflow-y: scroll;
 `;
 
 const AppLayout: React.FC = () => {

@@ -13,6 +13,7 @@ export type Guest = {
 };
 
 export type Booking = {
+  created_at: string;
   has_breakfast: boolean;
   id: string;
   start_date: string;
@@ -33,7 +34,7 @@ const Bookings: React.FC = () => {
   return (
     <>
       <Row type="horizontal">
-        <Heading>Bookings</Heading>
+        <Heading as="h1">Bookings</Heading>
       </Row>
 
       <Row type="vertical">

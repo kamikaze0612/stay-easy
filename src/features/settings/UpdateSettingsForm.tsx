@@ -22,8 +22,6 @@ const UpdateSettingsForm: React.FC = () => {
     queryFn: getSettings,
   });
 
-  console.log(settings);
-
   const {
     register,
     handleSubmit,
