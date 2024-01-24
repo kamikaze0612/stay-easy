@@ -16,6 +16,7 @@ import { useSettings } from "../settings/useSettings";
 import ButtonsGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import { useCheckin } from "./useCheckin";
+import { useEffect, useState } from "react";
 
 const Box = styled.div`
   padding: 2.4rem 3.2rem;
@@ -25,15 +26,48 @@ const Box = styled.div`
 `;
 
 const BookingCheckin: React.FC = () => {
-  const { checkin, isCheckingIn } = useCheckin();
   const { booking, isLoading, error } = useBooking();
+
+  const [addBreakfast, setAddBreakFast] = useState<boolean>(false);
+  const [confirmPayment, setConfirmPayment] = useState<boolean>(false);
+
+  const { checkin, isCheckingIn } = useCheckin();
   const { settings, isLoading: isSettingsLoading } = useSettings();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setConfirmPayment(booking?.is_paid ?? false);
+  }, [booking]);
+
+  const optionalBreakfastPrice =
+    (booking &&
+      settings &&
+      booking?.guests_num *
+        settings?.[0]?.breakfast_price *
+        booking?.stay_length) ||
+    0;
+
   if (error) {
     console.error("ERROR");
     throw new Error("Booking could not be fetched");
+  }
+
+  function handleCheckin() {
+    if (!confirmPayment) return;
+
+    if (booking && addBreakfast) {
+      checkin({
+        id: booking?.id,
+        breakfast: {
+          has_breakfast: true,
+          extras_total_price: optionalBreakfastPrice,
+          fee: booking?.fee + optionalBreakfastPrice,
+        },
+      });
+    } else if (booking) {
+      checkin({ id: booking?.id, breakfast: {} });
+    }
   }
 
   if (isLoading || !booking || isSettingsLoading || !settings)
@@ -55,31 +89,26 @@ const BookingCheckin: React.FC = () => {
       <Row type="vertical">
         <BookingDataBox booking={booking} />
 
-        {booking.has_breakfast && !booking.is_paid && (
+        {!booking.has_breakfast && !booking.is_paid && (
           <Box>
             <Checkbox
-              disabled={booking.is_paid}
               id="extras"
-              checked={booking.is_paid}
-              onChange={() => {}}
+              checked={addBreakfast}
+              onChange={() => setAddBreakFast((current) => !current)}
             >
               Want to add breakfast for{" "}
-              {formatCurrency(
-                booking.guests_num *
-                  settings?.[0]?.breakfast_price *
-                  booking.stay_length
-              )}
+              {formatCurrency(+optionalBreakfastPrice)}
             </Checkbox>
           </Box>
         )}
         <Box>
           <Checkbox
-            disabled={booking.is_paid}
-            checked={booking.is_paid}
+            disabled={confirmPayment || isCheckingIn}
+            checked={confirmPayment}
             id="payment"
-            onChange={() => {}}
+            onChange={() => setConfirmPayment((current) => !current)}
           >
-            I confirm that {booking.guests.full_name} has paid the total amoount
+            I confirm that {booking.guests.full_name} has paid the total amount
             of {formatCurrency(+booking.fee)}
           </Checkbox>
         </Box>
@@ -87,10 +116,8 @@ const BookingCheckin: React.FC = () => {
         <ButtonsGroup>
           <Button
             size="big"
-            disabled={isCheckingIn}
-            onClick={() =>
-              checkin(booking.id, { onSettled: () => navigate(-1) })
-            }
+            disabled={!confirmPayment || isCheckingIn}
+            onClick={handleCheckin}
           >
             Check in
           </Button>

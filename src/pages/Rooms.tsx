@@ -2,6 +2,7 @@ import RoomTable from "../features/rooms/RoomTable";
 import Row from "../ui/Row";
 import AddRoom from "../features/rooms/AddRoom";
 import Heading from "../ui/Heading";
+import RoomsDataOperations from "../features/rooms/RoomsDataOperations";
 
 export type Room = {
   id: string;
@@ -19,6 +20,7 @@ const Rooms: React.FC = () => {
     <>
       <Row type="horizontal">
         <Heading>Rooms</Heading>
+        <RoomsDataOperations />
       </Row>
 
       <Row type="vertical">

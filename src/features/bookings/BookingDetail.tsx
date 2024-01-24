@@ -55,12 +55,23 @@ const BookingDetail: React.FC = () => {
 
       <ButtonsGroup>
         {status === "unconfirmed" && (
-          <Button disabled={isWorking} size="big">
+          <Button
+            disabled={isWorking}
+            size="big"
+            onClick={() => navigate(`/checkin/${id}`)}
+          >
             Check in
           </Button>
         )}
         {status === "confirmed" && (
-          <Button disabled={isWorking} onClick={() => checkout(id)} size="big">
+          <Button
+            disabled={isWorking}
+            onClick={() => {
+              checkout(id);
+              navigate(-1);
+            }}
+            size="big"
+          >
             Check out
           </Button>
         )}

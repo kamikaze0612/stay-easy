@@ -3,3 +3,5 @@ export const STATUS_TO_TAG_TYPE = {
   confirmed: "green",
   "checked-out": "grey",
 };
+
+export const BOOKINGS_PER_PAGE = 10;

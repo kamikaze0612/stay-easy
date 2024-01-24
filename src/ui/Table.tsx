@@ -18,7 +18,7 @@ type TableBodyProps = {
 };
 
 type TableRowProps = {
-  columns: string;
+  columns?: string;
 };
 
 const StyledTable = styled.div`
@@ -47,9 +47,20 @@ const StyledRow = styled(CommonRow)`
   border-bottom: 1px solid var(--color-grey-200);
   border-left: 1px solid var(--color-grey-200);
   border-right: 1px solid var(--color-grey-200);
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const StyledBody = styled.div``;
+
+const StyledFooter = styled(CommonRow)`
+  border-radius: 0 0 0.8rem 0.8rem;
+  border: 1px solid var(--color-grey-200);
+  border-top: none;
+  padding: 2.4rem;
+`;
 
 const TableContext = createContext({
   columns: "",
@@ -87,8 +98,13 @@ function Body({ data, render }: TableBodyProps) {
   return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 
+function Footer({ children }: TableContentProps) {
+  return <StyledFooter>{children}</StyledFooter>;
+}
+
 Table.Header = Header;
 Table.Row = Row;
 Table.Body = Body;
+Table.Footer = Footer;
 
 export default Table;

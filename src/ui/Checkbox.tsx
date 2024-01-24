@@ -20,6 +20,7 @@ const StyledCheckbox = styled.div`
     border-radius: 2px;
     outline-offset: 2px;
     accent-color: var(--color-brand-600);
+    cursor: pointer;
   }
 
   & input[type="checkbox"]:disabled {

@@ -1,11 +1,35 @@
-import { useRooms } from "./useRooms";
-import { Room } from "../../pages/Rooms";
+import { useSearchParams } from "react-router-dom";
+
 import Table from "../../ui/Table";
-import RoomRow from "./RoomRow";
 import Loader from "../../ui/Loader";
+import RoomRow from "./RoomRow";
+import { Room } from "../../pages/Rooms";
+import { useRooms } from "./useRooms";
 
 const RoomTable: React.FC = () => {
   const { data: rooms, isLoading } = useRooms();
+
+  const [searchParams] = useSearchParams();
+
+  /********** FILTERING **********/
+  const filterValue = searchParams.get("discount") || "all";
+
+  let filteredRooms;
+
+  if (filterValue === "all") filteredRooms = rooms;
+  if (filterValue === "no-discount")
+    filteredRooms = rooms?.filter((room: Room) => room.discount === 0);
+  if (filterValue === "with-discount")
+    filteredRooms = rooms?.filter((room: Room) => room.discount > 0);
+
+  /********** SORTING **********/
+  const sortValue = searchParams.get("sort") || "asc-name";
+  const [direction, field] = sortValue.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+
+  const sortedRooms = filteredRooms?.sort(
+    (a, b) => (a[field] - b[field]) * modifier
+  );
 
   return isLoading ? (
     <Loader />
@@ -20,7 +44,7 @@ const RoomTable: React.FC = () => {
         <span></span>
       </Table.Header>
       <Table.Body
-        data={rooms}
+        data={sortedRooms}
         render={(room: Room) => <RoomRow room={room} key={room.name} />}
       ></Table.Body>
     </Table>

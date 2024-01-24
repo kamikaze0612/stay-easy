@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { format, isToday } from "date-fns";
 import {
   FaTrash,
@@ -16,7 +17,6 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import { useCheckout } from "./useCheckout";
-import { useNavigate } from "react-router-dom";
 import { STATUS_TO_TAG_TYPE } from "../../utils/constants";
 
 type BookingRowProps = {

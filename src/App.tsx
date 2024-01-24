@@ -47,7 +47,7 @@ const App: React.FC = () => {
         <Toaster
           position="top-center"
           gutter={8}
-          containerStyle={{ margin: "8px" }}
+          containerStyle={{ margin: "8px", textAlign: "center" }}
           toastOptions={{
             success: {
               duration: 5000,

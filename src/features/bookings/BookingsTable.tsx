@@ -4,9 +4,10 @@ import Loader from "../../ui/Loader";
 import Table from "../../ui/Table";
 import BookingRow from "./BookingRow";
 import { useBookings } from "./useBookings";
+import Pagination from "../../ui/Pagination";
 
 const BookingsTable: React.FC = () => {
-  const { bookings, isLoading } = useBookings();
+  const { bookings, isLoading, count } = useBookings();
 
   if (isLoading || !bookings) return <Loader />;
   if (!bookings || !bookings?.length) {
@@ -30,6 +31,10 @@ const BookingsTable: React.FC = () => {
           <BookingRow key={booking.id} booking={booking} />
         )}
       ></Table.Body>
+
+      <Table.Footer>
+        <Pagination count={count ? count : 0} />
+      </Table.Footer>
     </Table>
   );
 };
