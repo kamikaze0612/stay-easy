@@ -14,6 +14,7 @@ import Bookings from "./pages/Bookings";
 import Users from "./pages/Users";
 import Checkin from "./pages/Checkin";
 import Booking from "./features/bookings/Booking";
+import Login from "./ui/Login";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,7 @@ const App: React.FC = () => {
               <Route path="/users" element={<Users />} />
               <Route path="/checkin/:bookingId" element={<Checkin />} />
             </Route>
+            <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
 

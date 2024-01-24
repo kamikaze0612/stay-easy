@@ -21,7 +21,6 @@ export function useBookings() {
 
   // FILTERING
   const filterValue = searchParams.get("status") || "all";
-  console.log(filterValue);
   const filter =
     filterValue === "all" ? null : { field: "status", value: filterValue };
 

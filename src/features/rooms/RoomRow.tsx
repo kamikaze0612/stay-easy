@@ -16,6 +16,9 @@ type RoomRowProps = {
 
 const Image = styled.img`
   width: 6.4rem;
+  height: 4.8rem;
+  object-fit: cover;
+  object-position: center;
   transform: scale(1.6);
 `;
 

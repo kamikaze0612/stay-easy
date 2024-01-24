@@ -10,6 +10,17 @@ import { useCreateRoom } from "./useCreateRoom";
 import TextArea from "../../ui/TextArea";
 import { useEditRoom } from "./useEditRoom";
 
+export type NewRoom = {
+  id: string;
+  name: string;
+  rooms_num: number;
+  maxCapacity: number;
+  description: string;
+  price: number;
+  discount: number;
+  image: File;
+};
+
 type CreateRoomFormProps = {
   onCloseModal?: () => void;
   roomToEdit?: Room;
@@ -26,6 +37,8 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
     getValues,
   } = useForm<Room>();
 
+  const isEditSession = Boolean(roomToEdit?.id);
+
   const { createRoom, isCreating } = useCreateRoom();
   const { updateRoom, isUpdating } = useEditRoom();
 
@@ -33,12 +46,21 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
 
   const onSubmit: SubmitHandler<Room> = (data) => {
     if (roomToEdit?.id) {
-      updateRoom({ id: roomToEdit.id, room: data });
+      if (Object.keys(data.image).length > 0) {
+        updateRoom({
+          id: roomToEdit.id,
+          room: { ...data, image: data.image[0] },
+        });
+      } else
+        updateRoom({
+          id: roomToEdit.id,
+          room: { ...data, image: roomToEdit.image },
+        });
       if (Object.keys(errors).length === 0) onCloseModal?.();
       return;
     }
 
-    createRoom(data);
+    createRoom({ ...data, image: data.image[0] });
     if (Object.keys(errors).length === 0) onCloseModal?.();
   };
 
@@ -173,8 +195,8 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
               message: "Description must be use at least 5 characters",
             },
             maxLength: {
-              value: 100,
-              message: "Description must be under 100 characters",
+              value: 1000,
+              message: "Description must be under 1000 characters",
             },
           })}
         />
@@ -183,8 +205,9 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
       <FormRow label="Room image" id="image" error={errors?.image}>
         <FileInput
           id="image"
+          accept="image/*"
           {...register("image", {
-            required: "Image of room must be provided",
+            required: isEditSession ? false : "Image of room must be provided",
           })}
         />
       </FormRow>

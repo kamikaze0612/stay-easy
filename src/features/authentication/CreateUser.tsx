@@ -92,8 +92,13 @@ const CreateUser: React.FC = () => {
         />
       </FormRow>
 
-      <FormRow label="User avatar" id="image">
-        <FileInput disabled={isSigningup} id="image" {...register("avatar")} />
+      <FormRow label="User avatar (optional)" id="image">
+        <FileInput
+          disabled={isSigningup}
+          accept="image/*"
+          id="image"
+          {...register("avatar")}
+        />
       </FormRow>
 
       <FormRow>
