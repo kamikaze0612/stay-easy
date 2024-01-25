@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
 
+// Form has 2 types. Regular form can be used anywhere except in modal
 type FormProps = {
-  type: "regular" | "modal";
+  type?: "regular" | "modal";
 };
 
 const Form = styled.form<FormProps>`
@@ -25,5 +26,9 @@ const Form = styled.form<FormProps>`
       width: 80rem;
     `}
 `;
+
+Form.defaultProps = {
+  type: "regular",
+};
 
 export default Form;

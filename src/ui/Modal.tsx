@@ -74,19 +74,19 @@ const Button = styled.button`
   }
 `;
 
-const ModalContext = createContext({
+const initialContextValue = {
   openName: "",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   open: (_name: string) => {},
   close: () => {},
-});
+};
+
+const ModalContext = createContext(initialContextValue);
 
 const Modal = ({ children }: ModalProps) => {
   const [openName, setOpenName] = useState<string>("");
 
-  const open = (name: string) => {
-    setOpenName(name);
-  };
+  const open = useCallback((name: string) => setOpenName(name), []);
   const close = useCallback(() => setOpenName(""), []);
 
   return (
@@ -101,7 +101,6 @@ function Open({ children, opens: windowNameToOpen }: ModalOpenProps) {
 
   return cloneElement(children as ReactElement, {
     onClick: () => open(windowNameToOpen),
-    key: "Hello",
   });
 }
 

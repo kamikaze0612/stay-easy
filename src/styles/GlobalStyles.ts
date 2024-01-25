@@ -212,7 +212,7 @@ a.active {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #000;
+  background-color: #000;
 }
 .dots-8::before {
   box-shadow: -25px 0;

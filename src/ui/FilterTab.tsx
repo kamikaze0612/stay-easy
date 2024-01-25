@@ -38,7 +38,7 @@ const Tab = styled.button<TabProps>`
     props.active &&
     css`
       background-color: var(--color-brand-600);
-      color: var(--color-grey-0);
+      color: #fff;
     `}
 `;
 
@@ -47,8 +47,12 @@ const FilterTab: React.FC<FilterTabProps> = ({ fieldFilter, options }) => {
   const currentFilter = searchParams.get(fieldFilter) || options[0].value;
 
   function handleClick(value: string) {
+    // Setting filter data to url
     searchParams.set(fieldFilter, value);
+
+    // Setting page to 1 when filtering or sorting changed
     if (searchParams.get("page")) searchParams.set("page", "1");
+
     setSearchParams(searchParams);
   }
 

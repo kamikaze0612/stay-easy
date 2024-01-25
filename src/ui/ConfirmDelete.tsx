@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import Button from "./Button";
+import { ReactNode } from "react";
 
 type ConfirmDeleteProps = {
   onConfirm: () => void;
   disabled: boolean;
   onCloseModal?: () => void;
+  children: ReactNode;
+  title: string;
 };
 
 const StyledConfirmDelete = styled.div`
@@ -35,13 +38,13 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
   onConfirm,
   disabled,
   onCloseModal,
+  children,
+  title,
 }) => {
   return (
     <StyledConfirmDelete>
-      <Heading>Delete room</Heading>
-      <Text>
-        Are you sure want to delete this room? This action cannot be undone
-      </Text>
+      <Heading>{title}</Heading>
+      <Text>{children}</Text>
       <ButtonsContainer>
         <Button
           disabled={disabled}

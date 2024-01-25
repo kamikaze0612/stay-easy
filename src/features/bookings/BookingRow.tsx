@@ -82,50 +82,51 @@ const BookingRow: React.FC<BookingRowProps> = ({ booking }) => {
       <FeeAmount>{formatCurrency(booking.fee)}</FeeAmount>
 
       <Modal>
-        <Menus>
-          <Menus.Menu>
-            <Menus.Toggle id={`${booking.id}`}></Menus.Toggle>
+        <Menus.Menu>
+          <Menus.Toggle id={`${booking.id}`}></Menus.Toggle>
 
-            <Menus.List id={`${booking.id}`}>
-              {booking.status === "unconfirmed" && (
-                <Menus.Button
-                  onClick={() => navigate(`/checkin/${booking.id}`)}
-                  icon={<FaRegCaretSquareDown />}
-                >
-                  Check in
-                </Menus.Button>
-              )}
-
-              {booking.status === "confirmed" && (
-                <Menus.Button
-                  disabled={isCheckingOut}
-                  onClick={() => checkout(booking.id)}
-                  icon={<FaRegCaretSquareUp />}
-                >
-                  Check out
-                </Menus.Button>
-              )}
-
+          <Menus.List id={`${booking.id}`}>
+            {booking.status === "unconfirmed" && (
               <Menus.Button
-                onClick={() => navigate(`/bookings/${booking.id}`)}
-                icon={<FaEye />}
+                onClick={() => navigate(`/checkin/${booking.id}`)}
+                icon={<FaRegCaretSquareDown />}
               >
-                Details
+                Check in
               </Menus.Button>
+            )}
 
-              <Modal.Open opens="deleteBooking">
-                <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
-              </Modal.Open>
-            </Menus.List>
+            {booking.status === "confirmed" && (
+              <Menus.Button
+                disabled={isCheckingOut}
+                onClick={() => checkout(booking.id)}
+                icon={<FaRegCaretSquareUp />}
+              >
+                Check out
+              </Menus.Button>
+            )}
 
-            <Modal.Window name="deleteBooking">
-              <ConfirmDelete
-                disabled={isDeleting}
-                onConfirm={() => deleteBooking(booking.id)}
-              />
-            </Modal.Window>
-          </Menus.Menu>
-        </Menus>
+            <Menus.Button
+              onClick={() => navigate(`/bookings/${booking.id}`)}
+              icon={<FaEye />}
+            >
+              Details
+            </Menus.Button>
+
+            <Modal.Open opens="deleteBooking">
+              <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+
+          <Modal.Window name="deleteBooking">
+            <ConfirmDelete
+              title="Delete booking"
+              disabled={isDeleting}
+              onConfirm={() => deleteBooking(booking.id)}
+            >
+              Are you sure to delete this booking? This action cannot be undone
+            </ConfirmDelete>
+          </Modal.Window>
+        </Menus.Menu>
       </Modal>
     </Table.Row>
   );

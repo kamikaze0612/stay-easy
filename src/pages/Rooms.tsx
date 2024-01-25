@@ -1,4 +1,4 @@
-import RoomTable from "../features/rooms/RoomTable";
+import RoomsTable from "../features/rooms/RoomsTable";
 import Row from "../ui/Row";
 import AddRoom from "../features/rooms/AddRoom";
 import Heading from "../ui/Heading";
@@ -24,7 +24,7 @@ const Rooms: React.FC = () => {
       </Row>
 
       <Row type="vertical">
-        <RoomTable />
+        <RoomsTable />
         <AddRoom />
       </Row>
     </>

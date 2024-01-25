@@ -2,18 +2,15 @@ import { NavLink } from "react-router-dom";
 import { FaHome, FaKey, FaCog, FaAddressBook, FaUsers } from "react-icons/fa";
 import styled from "styled-components";
 import Footer from "./Footer";
+import Logo from "./Logo";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
+  background-color: var(--color-grey-0);
   border-right: 1px solid var(--color-grey-100);
   padding: 4.8rem 1.6rem;
   display: flex;
   flex-direction: column;
-`;
-
-const Logo = styled.img`
-  width: 16rem;
-  align-self: center;
 `;
 
 const NavBar = styled.nav`
@@ -43,7 +40,7 @@ const End = styled.div`
 const Sidebar: React.FC = () => {
   return (
     <StyledSidebar>
-      <Logo src="/img/logo-light.png" alt="Stay Easy Logo" />
+      <Logo />
       <NavBar>
         <NavList>
           <li>
@@ -75,7 +72,7 @@ const Sidebar: React.FC = () => {
       </NavBar>
 
       <End>
-        <Footer></Footer>
+        <Footer />
       </End>
     </StyledSidebar>
   );

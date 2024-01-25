@@ -56,31 +56,32 @@ const RoomRow: React.FC<RoomRowProps> = ({ room }) => {
       </Discount>
       <div>
         <Modal>
-          <Menus>
-            <Menus.Menu>
-              <Menus.Toggle id={`${room.id}`} />
+          <Menus.Menu>
+            <Menus.Toggle id={`${room.id}`} />
 
-              <Menus.List id={`${room.id}`}>
-                <Modal.Open opens="editRoom">
-                  <Menus.Button icon={<FaEdit />}>Edit</Menus.Button>
-                </Modal.Open>
+            <Menus.List id={`${room.id}`}>
+              <Modal.Open opens="editRoom">
+                <Menus.Button icon={<FaEdit />}>Edit</Menus.Button>
+              </Modal.Open>
 
-                <Modal.Open opens="deleteRoom">
-                  <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
-                </Modal.Open>
-              </Menus.List>
+              <Modal.Open opens="deleteRoom">
+                <Menus.Button icon={<FaTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
 
-              <Modal.Window name="editRoom">
-                <CreateRoomForm roomToEdit={room} />
-              </Modal.Window>
-              <Modal.Window name="deleteRoom">
-                <ConfirmDelete
-                  disabled={isDeleting}
-                  onConfirm={() => deleteRoom(room.id)}
-                />
-              </Modal.Window>
-            </Menus.Menu>
-          </Menus>
+            <Modal.Window name="editRoom">
+              <CreateRoomForm roomToEdit={room} />
+            </Modal.Window>
+            <Modal.Window name="deleteRoom">
+              <ConfirmDelete
+                disabled={isDeleting}
+                onConfirm={() => deleteRoom(room.id)}
+                title="Delete room"
+              >
+                Are you sure to delete this room? This action cannot be undone
+              </ConfirmDelete>
+            </Modal.Window>
+          </Menus.Menu>
         </Modal>
       </div>
     </Table.Row>

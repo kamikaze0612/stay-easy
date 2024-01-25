@@ -1,6 +1,5 @@
 import {
   Dispatch,
-  MouseEventHandler,
   ReactElement,
   ReactNode,
   SetStateAction,
@@ -111,7 +110,9 @@ const Menus = ({ children }: MenusProps) => {
   const [openId, setOpenId] = useState<string>("");
   const [position, setPosition] = useState<Position | undefined>();
 
-  const open = (id: typeof openId) => setOpenId(id);
+  // Function for opening menus of given id
+  const open = useCallback((id: typeof openId) => setOpenId(id), []);
+  // Function for closing menus
   const close = useCallback(() => setOpenId(""), []);
 
   return (
@@ -166,7 +167,7 @@ function List({ id, children }: MenusListProps) {
 function Toggle({ id }: MenusToggleProps) {
   const { open, setPosition, openId, close } = useContext(MenusContext);
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+  function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
 
     const targetEl = e.target as Element;
@@ -178,11 +179,14 @@ function Toggle({ id }: MenusToggleProps) {
         y: rect?.y + rect?.height + 4,
       });
 
+    console.log(openId);
+    console.log(id);
+    console.log(openId == id);
     openId === "" || openId !== id ? open(id) : close();
-  };
+  }
 
   return (
-    <StyledToggle onClick={handleClick}>
+    <StyledToggle onClick={(e) => handleClick(e)}>
       <FaGripVertical />
     </StyledToggle>
   );

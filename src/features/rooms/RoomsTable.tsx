@@ -5,6 +5,7 @@ import Loader from "../../ui/Loader";
 import RoomRow from "./RoomRow";
 import { Room } from "../../pages/Rooms";
 import { useRooms } from "./useRooms";
+import Menus from "../../ui/Menus";
 
 const RoomTable: React.FC = () => {
   const { data: rooms, isLoading } = useRooms();
@@ -34,20 +35,22 @@ const RoomTable: React.FC = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Table columns=".6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Header>
-        <span></span>
-        <span>Room</span>
-        <span>Capacity</span>
-        <span>Price</span>
-        <span>Discount</span>
-        <span></span>
-      </Table.Header>
-      <Table.Body
-        data={sortedRooms}
-        render={(room: Room) => <RoomRow room={room} key={room.name} />}
-      ></Table.Body>
-    </Table>
+    <Menus>
+      <Table columns=".6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+        <Table.Header>
+          <span></span>
+          <span>Room</span>
+          <span>Capacity</span>
+          <span>Price</span>
+          <span>Discount</span>
+          <span></span>
+        </Table.Header>
+        <Table.Body
+          data={sortedRooms}
+          render={(room: Room) => <RoomRow room={room} key={room.name} />}
+        ></Table.Body>
+      </Table>
+    </Menus>
   );
 };
 

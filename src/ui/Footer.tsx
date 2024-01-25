@@ -15,9 +15,16 @@ const Author = styled.p`
   line-height: 1.6;
   text-align: center;
 
-  & a {
+  & a:link,
+  & a:visited {
     color: var(--color-grey-800);
     font-weight: 600;
+  }
+
+  & a:hover,
+  & a:active {
+    color: var(--color-grey-900);
+    border-bottom: 2px solid currentColor;
   }
 `;
 
