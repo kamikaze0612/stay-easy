@@ -88,7 +88,10 @@ const BookingDetail: React.FC = () => {
                 deleteBooking(id, { onSettled: () => navigate("/bookings") })
               }
               disabled={isWorking}
-            />
+              title="Delete"
+            >
+              Are you sure to delete this booking? This action cannot be undone
+            </ConfirmDelete>
           </Modal.Window>
         </Modal>
       </ButtonsGroup>

@@ -60,7 +60,7 @@ const CreateRoomForm: React.FC<CreateRoomFormProps> = ({
       return;
     }
 
-    createRoom({ ...data, image: data.image[0] });
+    createRoom({ ...data, image: data.image[0] as unknown as File });
     if (Object.keys(errors).length === 0) onCloseModal?.();
   };
 
