@@ -24,8 +24,8 @@ const GlobalStyles = createGlobalStyle`
   --color-yellow-700: #a16207;
   --color-silver-100: #e5e7eb;
   --color-silver-700: #374151;
-  --color-indigo-100: #e0e7ff;
-  --color-indigo-700: #4338ca;
+  --color-indigo-100: #fefaef;
+  --color-indigo-700: #dab953;
 
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
@@ -81,14 +81,14 @@ const GlobalStyles = createGlobalStyle`
   }
   
   /* Indigo */
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
+  --color-brand-50: #fff;
+  --color-brand-100: #fffbef;
+  --color-brand-200: #ffe48c;
+  --color-brand-500: #ffd95a;
+  --color-brand-600: #e6c351;
+  --color-brand-700: #ccae48;
+  --color-brand-800: #665724;
+  --color-brand-900: #332b12;
   
   --border-radius-tiny: 3px;
   --border-radius-sm: 5px;
@@ -192,7 +192,7 @@ img {
 }
 
 a.active {
-  background-color: var(--color-grey-100);
+  background-color: var(--color-grey-50);
   color: var(--color-indigo-700);
 }
 

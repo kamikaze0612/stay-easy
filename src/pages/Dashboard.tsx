@@ -1,4 +1,4 @@
-import Stats from "../features/dashboard/Stats";
+import DashboardContent from "../features/dashboard/DashboardContent";
 import FilterTab from "../ui/FilterTab";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
         />
       </Row>
 
-      <Stats />
+      <DashboardContent />
     </>
   );
 };

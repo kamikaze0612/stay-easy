@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
-import { FaHome, FaKey, FaCog, FaAddressBook, FaUsers } from "react-icons/fa";
 import styled from "styled-components";
+
 import Footer from "./Footer";
 import Logo from "./Logo";
+import NavList from "./NavList";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -17,21 +17,6 @@ const NavBar = styled.nav`
   padding: 3.2rem 1.6rem;
 `;
 
-const NavList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-`;
-
-const StyledNavLink = styled(NavLink)`
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  font-size: 1.8rem;
-  padding: 1.6rem 2.4rem;
-  border-radius: 0.8rem;
-`;
-
 const End = styled.div`
   margin-top: auto;
   margin-bottom: -3.2rem;
@@ -42,33 +27,7 @@ const Sidebar: React.FC = () => {
     <StyledSidebar>
       <Logo />
       <NavBar>
-        <NavList>
-          <li>
-            <StyledNavLink to="/dashboard">
-              <FaHome /> Dashboard
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to="/rooms">
-              <FaKey /> Rooms
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to="/bookings">
-              <FaAddressBook /> Bookings
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to="/settings">
-              <FaCog /> Settings
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to="/users">
-              <FaUsers /> Users
-            </StyledNavLink>
-          </li>
-        </NavList>
+        <NavList />
       </NavBar>
 
       <End>

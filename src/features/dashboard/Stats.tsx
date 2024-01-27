@@ -1,41 +1,30 @@
-import styled from "styled-components";
 import {
-  FaMoneyCheck,
-  FaSuitcase,
   FaCalendar,
   FaChartBar,
+  FaMoneyCheck,
+  FaSuitcase,
 } from "react-icons/fa";
 
 import GridBox from "../../ui/GridBox";
-import StatIcon from "./StatIcon";
 import Stat from "./Stat";
-import BigStat from "./BigStat";
-import { useRecentStays } from "./useRecentStays";
-import { useRooms } from "../rooms/useRooms";
-import Loader from "../../ui/Loader";
+import StatIcon from "./StatIcon";
 import { formatCurrency } from "../../utils/helpers";
-import { useTodaysActivities } from "./useTodayActivities";
-import DurationGraph from "./DurationGraph";
 import { Booking } from "../../pages/Bookings";
-import TodaysActivities from "./TodaysActivities";
-import SalesGraph from "./SalesGraph";
+import { Room } from "../../pages/Rooms";
 
-const StyledStats = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2.4rem;
-`;
+type StatsProps = {
+  confirmedStays: Booking[];
+  stays: Booking[];
+  rooms: Room[];
+  numDays: number;
+};
 
-const Stats: React.FC = () => {
-  const {
-    stays,
-    numDays,
-    confirmedStays,
-    isLoading: isLoading1,
-  } = useRecentStays();
-  const { data: rooms, isLoading: isLoading2 } = useRooms();
-  const { todaysBookings, isLoading: isLoading3 } = useTodaysActivities();
-
+const Stats: React.FC<StatsProps> = ({
+  confirmedStays,
+  stays,
+  rooms,
+  numDays,
+}) => {
   const checkins = `${confirmedStays?.length}`;
   const bookingsNum = `${stays?.length}`;
   const roomCount = rooms?.length as number;
@@ -47,11 +36,8 @@ const Stats: React.FC = () => {
         (numDays * roomCount)) *
         100
     );
-
-  if (isLoading1 || isLoading2 || isLoading3) return <Loader />;
-
   return (
-    <StyledStats>
+    <>
       <GridBox>
         <Stat title="Check ins" statText={checkins}>
           <StatIcon icon={<FaCalendar />} color="yellow" />
@@ -75,23 +61,7 @@ const Stats: React.FC = () => {
           <StatIcon icon={<FaMoneyCheck />} color="green" />
         </Stat>
       </GridBox>
-
-      <GridBox columnLength="2">
-        <BigStat title="Today">
-          <TodaysActivities bookings={todaysBookings as Booking[]} />
-        </BigStat>
-      </GridBox>
-
-      <GridBox columnLength="2">
-        <BigStat title="Stay duration">
-          <DurationGraph confirmedStays={confirmedStays as Booking[]} />
-        </BigStat>
-      </GridBox>
-
-      <GridBox columnLength="4">
-        <SalesGraph bookings={stays as Booking[]} numDays={numDays} />
-      </GridBox>
-    </StyledStats>
+    </>
   );
 };
 

@@ -88,17 +88,16 @@ export async function apiCreateBookings() {
       !isToday(new Date(booking.end_date))
     )
       status = "checked-out";
-    else if (
-      isFuture(
-        new Date(booking.start_date) || isToday(new Date(booking.start_date))
-      )
+    if (
+      isFuture(new Date(booking.start_date)) ||
+      isToday(new Date(booking.start_date))
     )
       status = "unconfirmed";
-    else if (
-      (isPast(new Date(booking.start_date)) &&
-        isFuture(new Date(booking.end_date))) ||
-      (isToday(new Date(booking.end_date)) &&
-        !isToday(new Date(booking.start_date)))
+    if (
+      (isFuture(new Date(booking.end_date)) ||
+        isToday(new Date(booking.end_date))) &&
+      isPast(new Date(booking.start_date)) &&
+      !isToday(new Date(booking.start_date))
     )
       status = "confirmed";
 

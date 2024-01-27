@@ -23,6 +23,7 @@ const TodaysActivities: React.FC<TodaysActivitiesProps> = ({ bookings }) => {
           fullName={booking.guests.full_name}
           stayLength={booking.stay_length}
           status={booking.status}
+          bookingId={booking.id}
         />
       ))}
     </StyledTodaysActivities>

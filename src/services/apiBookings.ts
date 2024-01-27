@@ -1,7 +1,7 @@
 import { QueryFeatures } from "../features/bookings/useBookings";
 import { Booking } from "../pages/Bookings";
 import { BOOKINGS_PER_PAGE } from "../utils/constants";
-import { getToday } from "../utils/helpers";
+import { getToday, getTomorrow } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sortBy, page }: QueryFeatures) {
@@ -78,9 +78,7 @@ export async function getTodaysActivities() {
     .from("bookings")
     .select("*, guests(full_name, flag_icon, nationality)")
     .or(
-      `and(status.eq.unconfirmed,start_date.eq.${getToday({
-        end: false,
-      })}),and(status.eq.confirmed,end_date.eq.${getToday({ end: false })})`
+      `and(status.eq.unconfirmed,start_date.gte.${getToday()},start_date.lt.${getTomorrow()}),and(status.eq.confirmed,end_date.gte.${getToday()},end_date.lt.${getTomorrow()})`
     )
     .order("created_at");
 

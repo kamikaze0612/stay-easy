@@ -1,23 +1,38 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Tag from "../../ui/Tag";
+import Flag from "../../ui/Flag";
+import Button from "../../ui/Button";
+import { useCheckout } from "../bookings/useCheckout";
 
 type TodaysActivityItemProps = {
   flag: string;
   fullName: string;
   status: string;
   stayLength: number;
+  bookingId: string;
 };
 
 const StyledTodaysActivityItem = styled.li`
-  padding: 0.6rem 0;
+  padding: 1.2rem 0;
   border-top: 1px solid var(--color-grey-100);
   display: grid;
-  grid-template-columns: 9.6rem 19.6rem 1fr 1fr;
+  grid-template-columns: 9.6rem 4rem 19.6rem 1fr 1fr;
+  align-items: center;
 
   &:last-child {
     border-bottom: 1px solid var(--color-grey-100);
   }
+`;
+
+const Name = styled.p`
+  font-size: 1.4rem;
+  font-weight: 500;
+`;
+
+const Duration = styled.p`
+  font-size: 1.4rem;
 `;
 
 const TypeToFilter = {
@@ -30,7 +45,10 @@ const TodaysActivityItem: React.FC<TodaysActivityItemProps> = ({
   fullName,
   status,
   stayLength,
+  bookingId,
 }) => {
+  const navigate = useNavigate();
+  const { checkout, isCheckingOut } = useCheckout();
   const color =
     status === "unconfirmed" || status === "confirmed"
       ? TypeToFilter[status]
@@ -41,9 +59,23 @@ const TodaysActivityItem: React.FC<TodaysActivityItemProps> = ({
       <Tag type={color}>
         {status === "unconfirmed" ? "Arriving" : "Departing"}
       </Tag>
-      <p>{flag}</p>
-      <p>{fullName}</p>
-      <p>{stayLength}</p>
+      <Flag src={flag} />
+      <Name>{fullName}</Name>
+      <Duration>{stayLength} nights</Duration>
+      {status === "unconfirmed" && (
+        <Button onClick={() => navigate(`/checkin/${bookingId}`)} size="small">
+          Check in
+        </Button>
+      )}
+      {status === "confirmed" && (
+        <Button
+          size="small"
+          disabled={isCheckingOut}
+          onClick={() => checkout(bookingId)}
+        >
+          Check out
+        </Button>
+      )}
     </StyledTodaysActivityItem>
   );
 };
