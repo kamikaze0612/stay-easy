@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Settings } from "../../pages/Settings";
+import { Settings } from "./UpdateSettingsForm";
 import { updateSettings as apiUpdateSettings } from "../../services/apiSettings";
 import toast from "react-hot-toast";
 
