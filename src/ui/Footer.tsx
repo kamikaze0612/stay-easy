@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
     <StyledFooter>
       <CopyRight>&copy; 2024 All rights reserved</CopyRight>
       <Author>
-        Designed & Coded by{" "}
+        Coded by{" "}
         <a href="https://kamikaze0612.github.io/" target="_blank">
           B.Buyantogtokh
         </a>

@@ -1,6 +1,7 @@
 import { QueryFeatures } from "../features/bookings/useBookings";
 import { Booking } from "../pages/Bookings";
 import { BOOKINGS_PER_PAGE } from "../utils/constants";
+import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sortBy, page }: QueryFeatures) {
@@ -36,6 +37,59 @@ export async function getBookings({ filter, sortBy, page }: QueryFeatures) {
   }
 
   return { bookings, count };
+}
+
+// Returns bookings that are created after given date
+// Date must be "ISO String" format
+export async function getBookingsAfterDate(date: string) {
+  const { data: bookings, error } = await supabase
+    .from("bookings")
+    .select("*")
+    .gte("created_at", date)
+    .lte("created_at", getToday({ end: true }));
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be fetched");
+  }
+
+  return bookings as Booking[];
+}
+
+// Returns bookings that are gonna start after given date
+// Date must be "ISO String" format
+export async function getStaysAfterDate(date: string) {
+  const { data: bookings, error } = await supabase
+    .from("bookings")
+    .select("*, guests(full_name)")
+    .gte("start_date", date);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be fetched");
+  }
+
+  return bookings as Booking[];
+}
+
+// Returns today's activities
+export async function getTodaysActivities() {
+  const { data: bookings, error } = await supabase
+    .from("bookings")
+    .select("*, guests(full_name, flag_icon, nationality)")
+    .or(
+      `and(status.eq.unconfirmed,start_date.eq.${getToday({
+        end: false,
+      })}),and(status.eq.confirmed,end_date.eq.${getToday({ end: false })})`
+    )
+    .order("created_at");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be fetched");
+  }
+
+  return bookings as Booking[];
 }
 
 export async function getBooking(id: string | undefined) {
