@@ -17,7 +17,7 @@ const Author = styled.p`
 
   & a:link,
   & a:visited {
-    color: var(--color-grey-800);
+    color: var(--color-brand-700);
     font-weight: 600;
   }
 
