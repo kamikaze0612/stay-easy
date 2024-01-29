@@ -5,3 +5,5 @@ export const STATUS_TO_TAG_TYPE = {
 };
 
 export const BOOKINGS_PER_PAGE = 10;
+
+export const FREEZE_DATE = "Jan 27 2024";

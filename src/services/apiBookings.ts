@@ -1,7 +1,7 @@
 import { QueryFeatures } from "../features/bookings/useBookings";
 import { Booking } from "../pages/Bookings";
-import { BOOKINGS_PER_PAGE } from "../utils/constants";
-import { getToday, getTomorrow } from "../utils/helpers";
+import { BOOKINGS_PER_PAGE, FREEZE_DATE } from "../utils/constants";
+import { getISOString, getTomorrow } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sortBy, page }: QueryFeatures) {
@@ -46,7 +46,7 @@ export async function getBookingsAfterDate(date: string) {
     .from("bookings")
     .select("*")
     .gte("created_at", date)
-    .lte("created_at", getToday({ end: true }));
+    .lte("created_at", getISOString(FREEZE_DATE, true));
 
   if (error) {
     console.error(error);
@@ -78,7 +78,13 @@ export async function getTodaysActivities() {
     .from("bookings")
     .select("*, guests(full_name, flag_icon, nationality)")
     .or(
-      `and(status.eq.unconfirmed,start_date.gte.${getToday()},start_date.lt.${getTomorrow()}),and(status.eq.confirmed,end_date.gte.${getToday()},end_date.lt.${getTomorrow()})`
+      `and(status.eq.unconfirmed,start_date.gte.${getISOString(
+        FREEZE_DATE
+      )},start_date.lt.${getTomorrow(
+        FREEZE_DATE
+      )}),and(status.eq.confirmed,end_date.gte.${getISOString(
+        FREEZE_DATE
+      )},end_date.lt.${getTomorrow(FREEZE_DATE)})`
     )
     .order("created_at");
 

@@ -26,9 +26,18 @@ export const getToday = (options?: GetTodayOptions) => {
   return today.toISOString().slice(0, -1);
 };
 
-export const getTomorrow = () => {
-  const today = new Date();
+export const getTomorrow = (date: string) => {
+  const today = new Date(date);
   const tomorrow = addDays(today, 1);
 
   return tomorrow.toISOString().slice(0, -1);
+};
+
+export const getISOString = (date: string, end = false) => {
+  const day = new Date(date);
+
+  if (end) day.setUTCHours(23, 59, 59, 999);
+  else day.setUTCHours(0, 0, 0, 0);
+
+  return day.toISOString().slice(0, -1);
 };

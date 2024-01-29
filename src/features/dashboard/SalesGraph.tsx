@@ -12,6 +12,7 @@ import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 import { useDarkLightMode } from "../../context/darkModeContext";
 import { Booking } from "../../pages/Bookings";
+import { FREEZE_DATE } from "../../utils/constants";
 
 type SalesGraphProps = {
   numDays: number;
@@ -36,8 +37,8 @@ const SalesGraph: React.FC<SalesGraphProps> = ({ numDays, bookings }) => {
   const { isDarkMode } = useDarkLightMode();
 
   const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
-    end: new Date(),
+    start: subDays(new Date(FREEZE_DATE), numDays - 1),
+    end: new Date(FREEZE_DATE),
   });
 
   const data = allDates.map((date) => {
