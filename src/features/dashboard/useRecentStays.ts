@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { subDays } from "date-fns";
 
 import { getStaysAfterDate } from "../../services/apiBookings";
+import { FREEZE_DATE } from "../../utils/constants";
 
 export function useRecentStays() {
   const [searchParams] = useSearchParams();
@@ -11,7 +12,7 @@ export function useRecentStays() {
     ? Number(searchParams.get("range"))
     : 7;
 
-  const targetDate = subDays(new Date(), numDays).toISOString();
+  const targetDate = subDays(new Date(FREEZE_DATE), numDays).toISOString();
 
   const { data: stays, isLoading } = useQuery({
     queryFn: () => getStaysAfterDate(targetDate),
