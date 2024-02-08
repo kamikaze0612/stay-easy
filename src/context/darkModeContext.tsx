@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type DarkModeContextType = {
   isDarkMode: boolean;
@@ -24,9 +25,15 @@ const DarkLightModeContext = createContext<DarkModeContextType>({
 const DarkModeContextProvider: React.FC<DarkModeContextProviderProps> = ({
   children,
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { setValue, getValue } = useLocalStorage();
 
-  const switchMode = () => setIsDarkMode((cur) => !cur);
+  const [isDarkMode, setIsDarkMode] = useState(getValue("theme") === "dark");
+
+  const switchMode = () => {
+    setIsDarkMode((cur) => !cur);
+    const theme = isDarkMode ? "light" : "dark";
+    setValue("theme", theme);
+  };
 
   useEffect(() => {
     if (isDarkMode) {

@@ -24,8 +24,8 @@ const GlobalStyles = createGlobalStyle`
   --color-yellow-700: #a16207;
   --color-silver-100: #e5e7eb;
   --color-silver-700: #374151;
-  --color-indigo-100: #fefaef;
-  --color-indigo-700: #dab953;
+  --color-gold-100: #fefaef;
+  --color-gold-700: #dab953;
 
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
@@ -63,8 +63,8 @@ const GlobalStyles = createGlobalStyle`
     --color-yellow-700: #fef9c3;
     --color-silver-100: #374151;
     --color-silver-700: #f3f4f6;
-    --color-indigo-100: #3730a3;
-    --color-indigo-700: #e0e7ff;
+    --color-gold-100: #6d5d2a;
+    --color-gold-700: #fefaef;
       
     --color-red-100: #fee2e2;
     --color-red-700: #b91c1c;
@@ -201,34 +201,22 @@ a.active {
 }
 
 /* LOADER */
-.dots-8 {
-  width: 15px;
+.loader {
+  width: 50px;
+  padding: 8px;
   aspect-ratio: 1;
-  position: relative;
-}
-.dots-8::before,
-.dots-8::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   border-radius: 50%;
-  background-color: #000;
+  background: var(--color-brand-500);
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: s3 1s infinite linear;
 }
-.dots-8::before {
-  box-shadow: -25px 0;
-  animation: d8-1 1s infinite linear;
-}
-.dots-8::after {
-  transform: rotate(0deg) translateX(25px);
-  animation: d8-2 1s infinite linear;
-}
-
-@keyframes d8-1 {
-    100%{transform: translateX(25px)}
-}
-@keyframes d8-2 {
-    100%{transform: rotate(-180deg) translateX(25px)}
-}
+@keyframes s3 {to{transform: rotate(1turn)}}
 
 `;
 

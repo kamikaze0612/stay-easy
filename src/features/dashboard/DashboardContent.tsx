@@ -2,16 +2,16 @@ import styled from "styled-components";
 
 import GridBox from "../../ui/GridBox";
 import BigStat from "./BigStat";
-import { useRecentStays } from "./useRecentStays";
-import { useRooms } from "../rooms/useRooms";
 import Loader from "../../ui/Loader";
-import { useTodaysActivities } from "./useTodayActivities";
 import DurationGraph from "./DurationGraph";
-import { Booking } from "../../pages/Bookings";
 import TodaysActivities from "./TodaysActivities";
 import SalesGraph from "./SalesGraph";
 import Stats from "./Stats";
+import { Booking } from "../../pages/Bookings";
 import { Room } from "../../pages/Rooms";
+import { useRecentStays } from "./useRecentStays";
+import { useTodaysActivities } from "./useTodayActivities";
+import { useRooms } from "../rooms/useRooms";
 
 const StyledStats = styled.div`
   display: grid;

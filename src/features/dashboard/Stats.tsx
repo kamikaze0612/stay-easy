@@ -52,7 +52,7 @@ const Stats: React.FC<StatsProps> = ({
 
       <GridBox>
         <Stat title="Occupancy rate" statText={`${occupancyRate}%`}>
-          <StatIcon icon={<FaChartBar />} color="indigo" />
+          <StatIcon icon={<FaChartBar />} color="gold" />
         </Stat>
       </GridBox>
 

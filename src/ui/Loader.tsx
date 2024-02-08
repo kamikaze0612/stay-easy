@@ -12,7 +12,7 @@ const StyledLoader = styled.div`
 const Loader: React.FC = () => {
   return (
     <StyledLoader>
-      <div className="dots-8"></div>
+      <div className="loader"></div>
     </StyledLoader>
   );
 };

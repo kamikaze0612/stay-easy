@@ -1,14 +1,12 @@
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 import styled, { css } from "styled-components";
 
 type ButtonProps = {
   variation?: "primary" | "secondary" | "danger";
   size?: "small" | "normal" | "big";
   type?: string;
-  onClick?: () => void;
   children: ReactNode;
-  disabled?: boolean;
-};
+} & ComponentProps<"button">;
 
 const sizes = {
   small: css`
